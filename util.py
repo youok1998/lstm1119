@@ -24,8 +24,8 @@ def timestamp_to_str(timestamp=None, format='%H:%M:%S'):
         return time.strftime(format, time.localtime())
 
 
-def read_day_info(date):
-    dealer_list = get_dealer()
+def read_day_info(user_type, date):
+    dealer_list = get_dealer(dealer_type=user_type)
     filename = 'output/' + date + '.csv'
     info = read_csv(filename, usecols=['time', 'agent', 'offset', 'volume'], encoding='GBK')
     info = info.values
@@ -46,8 +46,8 @@ def read_day_info(date):
     return buy_tick, sell_tick
 
 
-def generate_new_csv(date):
-    buy_tick, sell_tick = read_day_info(date=date)
+def generate_new_csv(user_type, date):
+    buy_tick, sell_tick = read_day_info(user_type=user_type, date=date)
     read_filename = 'quote/' + date + '/sc1809.csv'
     reader = read_csv(read_filename, iterator=True)
     time = read_csv(read_filename, usecols=['UpdateTime']).values
@@ -124,6 +124,6 @@ def new_picture_to_array(date):
 
 if __name__ == '__main__':
     # transfer_picture_to_black_white_picture('20181003')
-    generate_new_csv('20180412')
+    generate_new_csv(user_type=2, date='20180412')
     # print(timestamp_to_str(1522026342, format='%H:%M:%S'))
     # print(read_day_info('20180326'))
